@@ -3,10 +3,16 @@ const url = "http://localhost:3000/days"
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchDays()
-    const button = document.getElementById("new-dive-button")
-    button.addEventListener("click", event => {
-    createDay(event) })
-})
+
+    const createDayForm = document.querySelector('#diveInputForm')
+
+    createDayForm.addEventListener("submit", (e) => createFormHandler(e))
+  })
+
+    // const button = document.getElementById("new-dive-button")
+    // button.addEventListener("click", event => {
+    // createDay(event) })
+
 
 
 function fetchDays() {
@@ -45,7 +51,10 @@ function fetchDays() {
     })
 }
 
-
+function createFormHandler(e){
+  e.preventDefault()
+  
+}
 
 
 
