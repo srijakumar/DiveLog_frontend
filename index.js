@@ -53,7 +53,44 @@ function fetchDays() {
 
 function createFormHandler(e){
   e.preventDefault()
-  
+  const titleInput = document.querySelector('#diveDesc').value
+  const dayInput = document.querySelector('#diveDay').value
+  const locInput = document.querySelector('#diveLoc').value
+  const depthInput = document.querySelector('#diveDepth').value
+  const currentInput = document.querySelector('#current').value
+  const visInput = document.querySelector('#visibility').value
+  const marInput = document.querySelector('#marinelife').value
+  postFetch(titleInput, dayInput, locInput, depthInput, currentInput, visInput, marInput)
+
+}
+
+function postFetch(title,day,location,depth, current, visibility, content){
+  let bodyData ={title,day,location,depth, current, visibility, content}
+  fetch(url, {
+    // POST request
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(bodyData)
+  })
+  .then(response => response.json())
+  .then(day => {
+    console.log(day);
+    #debugger
+    const dayData = day.data
+    // render JSON response
+    const dayMarkup = `
+    <div data-id=${day.id}>
+      <h3>${dayData.title}</h3>
+      <h4>${dayData.day}</h4>
+      <p>${dayData.logs.location}</p>
+      <button data-id=${dayData.id}>edit</button>
+    </div>
+    <br><br>`;
+
+    document.querySelector('#diveList').innerHTML += dayMarkup;
+  })
+
+
 }
 
 
