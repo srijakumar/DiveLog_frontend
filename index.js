@@ -3,16 +3,9 @@ const url = "http://localhost:3000/days"
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchDays()
-
     const createDayForm = document.querySelector('#diveInputForm')
-
     createDayForm.addEventListener("submit", (e) => createFormHandler(e))
   })
-
-    // const button = document.getElementById("new-dive-button")
-    // button.addEventListener("click", event => {
-    // createDay(event) })
-
 
 
 function fetchDays() {
@@ -24,7 +17,7 @@ function fetchDays() {
         const dayMarkup = `
           <div data-id=${day.id}>
             <h3>${day.title}</h3>
-            <h4>${day.day}</h4>
+            <h4>${day.date}</h4>
           </div>
           `;
           document.querySelector('#diveList').innerHTML += dayMarkup
@@ -34,7 +27,7 @@ function fetchDays() {
                 <p>Location: ${log.location}</p>
                 <p>Current: ${log.current}</p>
                 <p>Visibility: ${log.visibility}</p>
-                <p>Depth: ${log.depth}</p>
+                <p>Depth: ${log.depth}m</p>
               </div>`;
                 document.querySelector('#diveList').innerHTML += logMarkup
           })
@@ -64,8 +57,12 @@ function createFormHandler(e){
 
 }
 
-function postFetch(title,day,location,depth, current, visibility, content){
-  let bodyData ={title,day,location,depth, current, visibility, content}
+function postFetch(title,date,location,depth, current, visibility, content){
+  //console.log(title,day,location,depth, current, visibility, content)
+  let bodyData ={title,date,location,depth, current, visibility, content}
+  //console.log(bodyData)
+  //debugger
+
   fetch(url, {
     // POST request
     method: "POST",
@@ -74,15 +71,18 @@ function postFetch(title,day,location,depth, current, visibility, content){
   })
   .then(response => response.json())
   .then(day => {
+    
     console.log(day);
-    #debugger
-    const dayData = day.data
+
+
+    //const dayData = day.data
+
     // render JSON response
     const dayMarkup = `
     <div data-id=${day.id}>
-      <h3>${dayData.title}</h3>
-      <h4>${dayData.day}</h4>
-      <p>${dayData.logs.location}</p>
+      <h3>${day.title}</h3>
+      <h4>${day.day}</h4>
+
       <button data-id=${dayData.id}>edit</button>
     </div>
     <br><br>`;
