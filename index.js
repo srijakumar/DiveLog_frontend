@@ -13,7 +13,7 @@ function fetchDays() {
   .then(response => response.json())
   .then(days => {
     days.forEach(day => {
-      debugger
+      //debugger
         // double check how your data is nested in the console so you can successfully access the attributes of each individual object
         const dayMarkup = `
           <div data-id=${day.id}>
@@ -21,6 +21,7 @@ function fetchDays() {
             <h4>${day.date}</h4>
           </div>
           `;
+          //debugger
           document.querySelector('#diveList').innerHTML += dayMarkup
           day.logs.forEach(log=>{
             const logMarkup = `
@@ -46,7 +47,7 @@ function fetchDays() {
 }
 
 function createFormHandler(e){
-  debugger
+  //debugger
   e.preventDefault()
   const titleInput = document.querySelector('#diveDesc').value
   const dayInput = document.querySelector('#diveDay').value
@@ -62,13 +63,24 @@ function createFormHandler(e){
 function postFetch(title,date,location,depth, current, visibility, content){
   //console.log(title,day,location,depth, current, visibility, content)
   let bodyData ={
+    //title,date,location,depth, current, visibility, content
+    //day[title],day[date],day[day_id][location],day[day_id][depth], day[day_id][current], day[day_id][visibility], day[day_id][content]
 
-    title,date,location,depth, current, visibility, content
-
+    day: { // this one is the main object
+		log_attributes: {  // this is a nested object of the log data
+			//day_id: day.id,
+			location: location,
+			depth: depth,
+			current: current,
+			visibility: visibility
+		},
+		title,  // this is an attribute of the day object
+    date
+  }
 
   }
   console.log(bodyData)
-  //debugger
+  debugger
 
   fetch(url, {
     // POST request
@@ -82,12 +94,12 @@ function postFetch(title,date,location,depth, current, visibility, content){
     console.log(day);
     debugger
 
-    const dayMarkup = `
-    <div data-id=${day.id}>
-      <h3>${day.title}</h3>
-      <h4>${day.date}</h4>
-    </div>
-    <br><br>`;
+const dayMarkup = `
+  <div data-id=${day.id}>
+   <h3>${day.title}</h3>
+   <h4>${day.date}</h4>
+ </div>
+ <br><br>`;
 
     document.querySelector('#diveList').innerHTML += dayMarkup;
   })
