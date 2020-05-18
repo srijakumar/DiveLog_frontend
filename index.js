@@ -13,6 +13,7 @@ function fetchDays() {
   .then(response => response.json())
   .then(days => {
     days.forEach(day => {
+      debugger
         // double check how your data is nested in the console so you can successfully access the attributes of each individual object
         const dayMarkup = `
           <div data-id=${day.id}>
@@ -45,6 +46,7 @@ function fetchDays() {
 }
 
 function createFormHandler(e){
+  debugger
   e.preventDefault()
   const titleInput = document.querySelector('#diveDesc').value
   const dayInput = document.querySelector('#diveDay').value
@@ -59,8 +61,13 @@ function createFormHandler(e){
 
 function postFetch(title,date,location,depth, current, visibility, content){
   //console.log(title,day,location,depth, current, visibility, content)
-  let bodyData ={title,date,location,depth, current, visibility, content}
-  //console.log(bodyData)
+  let bodyData ={
+
+    title,date,location,depth, current, visibility, content
+
+
+  }
+  console.log(bodyData)
   //debugger
 
   fetch(url, {
@@ -71,19 +78,14 @@ function postFetch(title,date,location,depth, current, visibility, content){
   })
   .then(response => response.json())
   .then(day => {
-    
+
     console.log(day);
+    debugger
 
-
-    //const dayData = day.data
-
-    // render JSON response
     const dayMarkup = `
     <div data-id=${day.id}>
       <h3>${day.title}</h3>
-      <h4>${day.day}</h4>
-
-      <button data-id=${dayData.id}>edit</button>
+      <h4>${day.date}</h4>
     </div>
     <br><br>`;
 
