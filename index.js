@@ -4,6 +4,8 @@ const url = "http://localhost:3000/days"
 document.addEventListener("DOMContentLoaded", () => {
     fetchDays()
     const createDayForm = document.querySelector('#diveInputForm')
+    //const input = document.createElement('input')
+    //createDayForm.appendChild(input)
     createDayForm.addEventListener("submit", (e) => createFormHandler(e))
   })
 
@@ -13,7 +15,6 @@ function fetchDays() {
   .then(response => response.json())
   .then(days => {
     days.forEach(day => {
-      //debugger
         // double check how your data is nested in the console so you can successfully access the attributes of each individual object
         const dayMarkup = `
           <div data-id=${day.id}>
@@ -56,31 +57,28 @@ function createFormHandler(e){
   const currentInput = document.querySelector('#current').value
   const visInput = document.querySelector('#visibility').value
   const marInput = document.querySelector('#marinelife').value
+
   postFetch(titleInput, dayInput, locInput, depthInput, currentInput, visInput, marInput)
 
 }
 
-function postFetch(title,date,location,depth, current, visibility, content){
-  //console.log(title,day,location,depth, current, visibility, content)
+function postFetch(title,date,location,depth,current, visibility, content){
   let bodyData ={
-    //title,date,location,depth, current, visibility, content
-    //day[title],day[date],day[day_id][location],day[day_id][depth], day[day_id][current], day[day_id][visibility], day[day_id][content]
-
-    day: { // this one is the main object
-		log_attributes: {  // this is a nested object of the log data
-			//day_id: day.id,
-			location: location,
-			depth: depth,
-			current: current,
-			visibility: visibility
-		},
-		title,  // this is an attribute of the day object
-    date
-  }
-
-  }
-  console.log(bodyData)
-  debugger
+    day: {
+          title,
+          date,
+          logs_attributes: [{  // this is a nested object of the log data
+        			"location" : location,
+        			"depth": depth,
+        			"current": current,
+        			"visibility": visibility,
+              //day_id: day_id
+		       } ],
+            marinelives_attributes: [{
+        			"content":content}
+              //day_id: day_id
+		         ]}}
+  //console.log(bodyData)
 
   fetch(url, {
     // POST request
@@ -90,18 +88,40 @@ function postFetch(title,date,location,depth, current, visibility, content){
   })
   .then(response => response.json())
   .then(day => {
-
-    console.log(day);
     debugger
+    console.log(day);
 
-const dayMarkup = `
-  <div data-id=${day.id}>
-   <h3>${day.title}</h3>
-   <h4>${day.date}</h4>
- </div>
- <br><br>`;
+    const dayMarkup = `
+      <div data-id=${day.id}>
+       <h3>${day.title}</h3>
+       <h4>${day.date}</h4>
+
+     </div>
+     `;
 
     document.querySelector('#diveList').innerHTML += dayMarkup;
+    day.logs.forEach(log=>{
+      debugger
+      const logMarkup = `
+        <div data-id=${day.id}>
+          <p>Location: ${log.location}</p>
+          <p>Current: ${log.current}</p>
+          <p>Visibility: ${log.visibility}</p>
+          <p>Depth: ${log.depth}m</p>
+        </div>`;
+          document.querySelector('#diveList').innerHTML += logMarkup
+    })
+
+    day.marinelives.forEach(marinelife=>{
+      const marineMarkup = `
+        <div data-id=${day.id}>
+          <p>Marine life spotted: ${marinelife.content}</p>
+        </div>
+        <br><br>`;
+          document.querySelector('#diveList').innerHTML += marineMarkup
+    })
+
+
   })
 
 
