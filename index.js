@@ -63,7 +63,8 @@ function createFormHandler(e){
 }
 
 function postFetch(title,date,location,depth,current, visibility, content){
-  let bodyData ={
+
+let bodyData ={
     day: {
           title,
           date,
@@ -129,125 +130,38 @@ function postFetch(title,date,location,depth,current, visibility, content){
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  fetchDays()
+})
 
 
-// const BASE_URL = "http://localhost:3000"
-// const DAYS_URL = `${BASE_URL}/days`
-// const LOGS_URL = `${BASE_URL}/logs`
-// const MARINELIVES_URL = `${BASE_URL}/marinelives`
-//
-// //this section
-// document.addEventListener("DOMContentLoaded", () => {
-//     fetchDays()
-//     const button = document.getElementById("new-dive-button")
-//     button.addEventListener("click", event => {
-//     createDay(event) })
-// })
-//
-//
-// function fetchDays(){
-//   fetch(DAYS_URL)
-//   .then(resp => resp.json())
-//   .then(json => {
-//         json.forEach(day => {
-//             let newDay = new Day(day.id, day.day, day.title, day.logs, day.marinelives)
-//             console.log(newDay)
-//             newDay.showDay()
-//         })
-//     })
-// }
-//
-//
-//
-//
-// function createDay(event) {
-//     const content = document.getElementById("new-day-info").value// this is the id associated with date in the form
-//     fetch(DAYS_URL, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//             day: content //the value that you entered
-//         })
-//     })
-//     .then(resp => resp.json())
-//     .then(newDay => {
-//            const main = document.querySelector("main") //main is the main content of the document
-//            const containerDiv = document.createElement('div') //create a div
-//            const br = document.createElement("BR") //create a <br>
-//
-//            main.append(containerDiv)
-//            containerDiv.classList.add("day-container")//returns the class name(s) of an element, as a DOMTokenList object.
-//            containerDiv.id = "main-container"
-//            containerDiv.innerHTML = content
-//            const obsInput = document.createElement('input')
-//            obsInput.type = "text"
-//            obsInput.id = "observations-form"
-//            obsInput.placeholder = "New Observation"
-//         const submitObservation = document.createElement('button')
-//             submitObservation.id = "observations-button"
-//             containerDiv.append(obsInput)
-//             containerDiv.append(submitObservation)
-//             submitObservation.addEventListener("click", event => {
-//                 Observation.createObservation(newDay, event) //maybe this NEEDS to be an instance function, not class function?
-//             })
-//         const refInput = document.createElement('input')
-//             refInput.type = "text"
-//             refInput.id = "reflection-form"
-//             refInput.placeholder = "New Reflection"
-//         const submitReflection = document.createElement('button')
-//             submitReflection.id = "reflections-button"
-//             containerDiv.append(refInput)
-//             containerDiv.append(submitReflection)
-//             submitReflection.addEventListener("click", event => {
-//                 Reflection.createReflection(newDay, event)
-//             })
-//         const obsHeader = document.createElement('lh')
-//             obsHeader.id = `observations-header-${newDay.id}` //id
-//             obsHeader.innerHTML = "Observations"
-//             containerDiv.append(obsHeader)
-//             obsHeader.append(br)
-//         const refHeader = document.createElement('lh')  //append day id here too
-//             refHeader.id = `reflections-header-${newDay.id}` //id
-//             refHeader.innerHTML = "Reflections"
-//             containerDiv.append(refHeader)
-//
-//     })
-//     }
-//
-//
-//
-//
-//
-//
-//
-// // function fetchDives () {
-// //   var dives = JSON.parse(localStorage.getItem('dives'));
-// //   //retrieving issues from Local Storage. parse the string result into a JSON object
-// //   var divesList = document.getElementById('divesList');
-// //
-// //   divesList.innerHTML = '';
-// //
-// //   for (var i = 0; i < dives.length; i++) {
-// //     var id = dives[i].id;
-// //     var title = dives[i].title;
-// //     var day = dives[i].day;
-// //     var location = dives[i].location;
-// //     var depth = dives[i].depth;
-// //     var current = dives[i].current;
-// //     var isibility = dives[i].visibility;
-// //
-// //     divesList.innerHTML +=   '<div class="well">'+
-// //                               '<h6>Issue ID: ' + id + '</h6>'+
-// //                               '<p><span class="label label-info">' + title + '</span></p>'+
-// //                               '<h3>' + day + '</h3>'+
-// //                               '<p><span class="glyphicon glyphicon-time"></span> ' + location + ' '+
-// //                               '<span class="glyphicon glyphicon-user"></span> ' + depth + '</p>'+
-// //                               '<span class="glyphicon glyphicon-user"></span> ' + current + '</p>'+
-// //                               '<span class="glyphicon glyphicon-user"></span> ' + visibility + '</p>'+
-// //                               '<a href="#" class="btn btn-warning" onclick="setStatusClosed(\''+id+'\')">Close</a> '+
-// //                               '<a href="#" class="btn btn-danger" onclick="deleteIssue(\''+id+'\')">Delete</a>'+
-// //                               '</div>';
-// //   }
-// // }
+
+class Day {
+  constructor(id, date, logs, marinelives){
+    this.id = id
+    this.date = date
+    this.logs = logs
+    this.marinelives = marinelives
+  }
+
+
+}
+
+class Log {
+  constructor(day, log){
+    this.day = day.id
+    this.location = log.location
+    this.current = log.current
+    this.visibility = log.visibility
+    this.depth = log.depth
+  }
+}
+
+
+
+class Marinelife{
+  constructor(day, ml){
+    this.day = day.id
+    this.content = ml.content
+  }
+}
