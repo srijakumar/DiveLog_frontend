@@ -1,3 +1,5 @@
+
+
 class Day {
 
   constructor(day, logs_attributes, marinelives_attributes) {
@@ -98,7 +100,9 @@ marineMarkup(){
 
 
 
-
+  document.querySelector('#diveList').innerHTML += dayMarkup;
+  document.querySelector('#diveList').innerHTML += logMarkup
+  document.querySelector('#diveList').innerHTML += marineMarkup
 
 
 
