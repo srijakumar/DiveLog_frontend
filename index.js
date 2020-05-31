@@ -119,8 +119,8 @@ function postFetch(title,date){
       container.append(mlInput)
 
       container.append(submitML)
-      submitLog.addEventListener("click", event =>{
-        Log.createLog(newDay, event)
+      submitML.addEventListener("click", event =>{
+        MarineLife.createML(newDay, event)
       })
 
       const logDisplay = document.createElement('lh')
@@ -148,6 +148,7 @@ function postFetch(title,date){
     }
 
     showDay(){
+
       const workarea = document.querySelector('#diveList')
       const container = document.createElement('div')
       const br = document.createElement("BR")
@@ -155,67 +156,247 @@ function postFetch(title,date){
       workarea.append(container)
       container.id = "main-container"
 
+      //added the day data
       workarea.innerHTML += this.title;
       workarea.innerHTML += this.date;
 
+      //now creating the log version of the file
+      const logTitle= document.createElement("H4")
+      logTitle.innerText = "Log details about this dive:"
+
+      const locInput = document.createElement('input')
+           locInput.type = "text"
+           locInput.id = "diveLoc"
+           locInput.className = "form-group"
+           locInput.placeholder = "Log dive location - Fiji? Bahamas? Hawaii? jk we are jealous anyway"
+
+      const depthInput = document.createElement('input')
+            depthInput.type = "text"
+            depthInput.id = "diveLoc"
+            depthInput.className = "form-group"
+            depthInput.placeholder = "Log dive depth - How deep did you go (in meters)"
+
+      const currentInput = document.createElement('input')
+            currentInput.type = "text"
+            currentInput.id = "current"
+            currentInput.className = "form-group"
+            currentInput.placeholder = "Log dive current - Strong/Medium/Light"
+
+      const visInput = document.createElement('input')
+            visInput.type = "text"
+            visInput.id = "visibility"
+            visInput.className = "form-group"
+            visInput.placeholder = "Log dive visibility - Murky/Medium/Clear"
+
+      const submitLog = document.createElement('button')
+      submitLog.innerHTML = "Enter Log Information"
+
+      const mlTitle= document.createElement("H4")
+      mlTitle.innerText = "Did you see any marine life:"
+
+      const mlInput = document.createElement('input')
+            mlInput.type = "text"
+            mlInput.id = "marinelife"
+            mlInput.className = "form-group"
+            mlInput.placeholder = "Corals? Sharks? Turtles? What did you see"
+
+      const submitML = document.createElement('button')
+      submitML.innerHTML = "Enter MarineLife Information"
+
+      container.append(locTitle)
+      container.append(locInput)
+      container.append(depthInput)
+      container.append(currentInput)
+      container.append(visInput)
+
+      container.append(submitLog)
+      submitLog.addEventListener("click", event =>{
+        Log.createLog(this, event)
+      })
+
+      container.append(mlTitle)
+      container.append(mlInput)
+
+      container.append(submitML)
+      submitML.addEventListener("click", event =>{
+        MarineLife.createML(this, event)
+      })
+
+      const logDisplay = document.createElement('lh')
+            logDisplay.id = `logDisplay-${this.id}`
+            logDisplay.innerHTML = "Dive Log Details"
+            container.append(logDisplay)
+            logDisplay.append(br)
+      const mlDisplay = document.createElement('lh')
+            mlDisplay.id = `mlDisplay-${this.id}`
+            mlDisplay.innerHTML = "Dive Observation Details"
+            container.append(mlDisplay)
+
+      this.logs.forEach(log => {
+            this.displayLogs(log)
+            })
+
+      this.marinelives.forEach(ml => {
+            this.displayMLs(ml)
+            })
+
+    }
+
+    displayLogs(log) {
+        console.log(log.id)
+        const lh = document.getElementById(`logDisplay-${this.id}`)
+        const ul = document.createElement('ul')
+        lh.append(ul)
+        const logList = document.createElement('li')
+        logList.id = `log-container-${log.id}`
+        ul.append(logList)
+        logs.innerHTML += log.location
+        logs.innerHTML += log.depth
+        logs.innerHTML += log.current
+        logs.innerHTML += log.visibility
+
+        //changes
+        const deleteButton = document.createElement('button')
+        deleteButton.innerHTML = "Delete this log"
+        deleteButton.id = `log-delete-${log.id}`
+        //deleteButton.classList.add('delete')
+        logList.append(deleteButton)
+        deleteButton.addEventListener("click", event => {
+            Log.deleteLog(log, event)
+        })
+    }
+
+
+    displayMLs(ml) {
+        const lh = document.getElementById(`mlDisplay-${this.id}`)
+        const ul = document.createElement('ul')
+        lh.append(ul)
+        const mlList = document.createElement('li')
+        mlList.id = `ml-container-${ml.id}`
+        ul.append(mlList)
+        mlList.innerHTML = ml.content
+        const deleteButton = document.createElement('button')
+        deleteButton.innerHTML = "Delete this Observation"
+        deleteButton.id = `ml-delete-${ml.id}`
+
+        mlList.append(deleteButton)
+        deleteButton.addEventListener("click", event => {
+            Marinelife.deleteml(ml, event)
+        })
     }
   }
 
-//
-//
-//
-//
-//
-//
-//
-//
-// function createFormHandler(e){
-//   //debugger
-//   e.preventDefault()
-//   const titleInput = document.querySelector('#diveDesc').value
-//   const dayInput = document.querySelector('#diveDay').value
-//   const locInput = document.querySelector('#diveLoc').value
-//   const depthInput = document.querySelector('#diveDepth').value
-//   const currentInput = document.querySelector('#current').value
-//   const visInput = document.querySelector('#visibility').value
-//   const marInput = document.querySelector('#marinelife').value
-//
-//   postFetch(titleInput, dayInput, locInput, depthInput, currentInput, visInput, marInput)
-//
-// }
-//
-// function postFetch(title,date,location,depth,current, visibility, content){
-//   let bodyData ={
-//     day: {
-//           title,
-//           date,
-//           logs_attributes: [{  // this is a nested object of the log data
-//         			"location" : location,
-//         			"depth": depth,
-//         			"current": current,
-//         			"visibility": visibility,
-//               //day_id: day_id
-// 		       } ],
-//             marinelives_attributes: [{
-//         			"content":content}
-//               //day_id: day_id
-// 		         ]}}
-//   //console.log(bodyData)
-//
-//   fetch(url, {
-//     // POST request
-//     method: "POST",
-//     headers: {"Content-Type": "application/json"},
-//     body: JSON.stringify(bodyData)
-//   })
-//   .then(response => response.json())
-//   .then(day => {
-//     //debugger
-//     console.log(day);
-//     let newDay = new Day(day, logs_attributes, marinelives_attributes)
-//     document.querySelector('#diveList').innerHTML += dayMarkup;
-//     document.querySelector('#diveList').innerHTML += logMarkup
-//     document.querySelector('#diveList').innerHTML += marineMarkup
-//
-//   })
-// }
+
+    class Log {
+      constructor(day, log){
+        this.day = day.id
+        this.location = log.location
+        this.depth = log.depth
+        this.current = log.current
+        this.visibility = log.visibility
+      }
+
+      static createLog(day, event){
+        const location = event.target.previousSibling.value
+        //is this correct way to add on to the previously displayed values
+        const depth = event.target.previousSibling.value
+        const current = event.target.previousSibling.value
+        const visibility = event.target.previousSibling.value
+
+        fetch(LOGS_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            //this will be sent to create method in Day Controller?
+            day: day,
+            location: location,
+            depth: depth,
+            current: current,
+            visibility: visibility
+          })
+        })
+        .then(resp => resp.json())
+        .then(newLog =>{
+          const lh = document.getElementById(`logDisplay-${day.id}`)
+          const ul = document.createElement('ul')
+          lh.append(ul)
+          const logList = document.createElement('li')
+          logList.id = `log-container-${log.id}`
+          ul.append(logList)
+          //can I do that?
+          logList.innerHTML = newLog.location
+          logList.innerHTML += newLog.depth
+          logList.innerHTML += newLog.current
+          logList.innerHTML += newLog.visibility
+
+          const deleteButton = document.createElement('button')
+          deleteButton.id = `log-delete-${log.id}`
+          logList.append(deleteButton)
+          //can be refactored to so its not duplicated
+          deleteButton.addEventListener("click", event => {
+            this.deleteLog(newLog, event)
+          })
+        })
+    }
+
+    static deleteLog(log, event) {
+        fetch(`${LOGS_URL}/${log.id}`, {
+            method: "DELETE"
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            event.target.parentElement.remove()
+        })
+    }
+  }
+
+  class MarineLife{
+    constructor(day, ml){
+      this.day = day.id
+      this.content = ml.content
+    }
+
+    static createML(day, event){
+      const content = event.target.previousSibling.value
+      fetch(ML_URL,{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+                 //is this right? Data structure may need to be corrected
+                 marinelife: content,
+                 day: day
+             })
+      })
+      .then(resp => resp.json())
+      .then(newML =>{
+        const lh = document.getElementById(`mlDisplay-${day.id}`)
+            const ul = document.createElement('ul')
+            lh.append(ul)
+            const mlList = document.createElement('li')
+            mlList.id = `ml-container-${newML.id}`
+            ul.append(mlList)
+            mlList.innerHTML = newML.content
+            const deleteButton = document.createElement('button')
+            deleteButton.innerHTML = "Delete this observation"
+            deleteButton.id =  `ml-delete-${newML.id}`
+            mlList.append(deleteButton)
+            deleteButton.addEventListener("click", event => {
+            this.deleteML(newML, event)
+            })
+      })
+    }
+
+    static deleteML(ml, event) {
+        fetch(`${ML_URL}/${ml.id}`, {
+            method: "DELETE"
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            event.target.parentElement.remove()
+        })
+    }
+  }
