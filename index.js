@@ -13,13 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //this is a get request
 function fetchDays() {
-  fetch(URL)
+  fetch(DAYS_URL)
   .then(response => response.json())
   .then(days => {
     days.forEach(day => {
         // this is manipulating the DOM
       //  render(day)
-      let newDay = new Day(day.id, day.date, day.logs, day.marinelives)
+      let newDay = new Day(day.id, day.title, day.date, day.logs, day.marinelives)
+      //this is where the order was wrong - now corrected
       console.log(newDay)
       newDay.showDay()
 
@@ -56,6 +57,7 @@ function postFetch(title,date){
       const br = document.createElement("BR")
 
       workarea.append(container)
+      container.classList.add("day-container")
       container.id = "main-container"
 
       //added the day data
@@ -104,7 +106,7 @@ function postFetch(title,date){
       const submitML = document.createElement('button')
       submitML.innerHTML = "Enter MarineLife Information"
 
-      container.append(locTitle)
+      container.append(logTitle)
       container.append(locInput)
       container.append(depthInput)
       container.append(currentInput)
@@ -140,6 +142,7 @@ function postFetch(title,date){
 
   class Day {
     constructor(id, title, date, logs, marinelives){
+      //this is wrong order
       this.id = id
       this.title = title
       this.date = date
@@ -153,8 +156,11 @@ function postFetch(title,date){
       const container = document.createElement('div')
       const br = document.createElement("BR")
 
-      workarea.append(container)
+
+      //container.classList.add("day-container")
       container.id = "main-container"
+      //this contain is created and appended to DOM and then select it from the dom again and compare it to the created container - is it the same object?
+
 
       //added the day data
       workarea.innerHTML += this.title;
@@ -203,7 +209,7 @@ function postFetch(title,date){
       const submitML = document.createElement('button')
       submitML.innerHTML = "Enter MarineLife Information"
 
-      container.append(locTitle)
+      container.append(logTitle)
       container.append(locInput)
       container.append(depthInput)
       container.append(currentInput)
@@ -222,6 +228,9 @@ function postFetch(title,date){
         MarineLife.createML(this, event)
       })
 
+      //moved
+
+
       const logDisplay = document.createElement('lh')
             logDisplay.id = `logDisplay-${this.id}`
             logDisplay.innerHTML = "Dive Log Details"
@@ -232,28 +241,48 @@ function postFetch(title,date){
             mlDisplay.innerHTML = "Dive Observation Details"
             container.append(mlDisplay)
 
+      workarea.append(container)
+      const logsList = document.createElement('ul')
+
       this.logs.forEach(log => {
-            this.displayLogs(log)
+            this.displayLogs(log, logsList)
             })
+
+      workarea.append(container)
 
       this.marinelives.forEach(ml => {
             this.displayMLs(ml)
             })
 
+
+
     }
 
     displayLogs(log) {
-        console.log(log.id)
-        const lh = document.getElementById(`logDisplay-${this.id}`)
-        const ul = document.createElement('ul')
+        console.log(log)
+        const lh = document.getElementById(`logDisplay-${log.id}`)
+        //issue with this line  - looking for it to be already there, nothing here so nothing to append to and it breaks
+
+        //const ul = document.createElement('ul')
         lh.append(ul)
-        const logList = document.createElement('li')
-        logList.id = `log-container-${log.id}`
-        ul.append(logList)
-        logs.innerHTML += log.location
-        logs.innerHTML += log.depth
-        logs.innerHTML += log.current
-        logs.innerHTML += log.visibility
+        const logListItem = document.createElement('li')
+        logListItem.id = `log-container-${log.id}`
+
+        logListItem.id = `log-container-${log.id}`
+        logListItem.text +=  log.location;
+        logListItem.text +=  "-";
+        logListItem.text +=  log.depth;
+        logListItem.text +=  "-";
+        logListItem.text +=  log.current;
+        logListItem.text +=  "-";
+        logListItem.text +=  log.visibility;
+        loglogList.append(logListItem)
+
+        // ul.append(logList)
+        // logsList.innerHTML += log.location
+        // logsList.innerHTML += log.depth
+        // logsList.innerHTML += log.current
+        // logsList.innerHTML += log.visibility
 
         //changes
         const deleteButton = document.createElement('button')
