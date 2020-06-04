@@ -21,7 +21,7 @@ function fetchDays() {
       //  render(day)
       let newDay = new Day(day.id, day.title, day.date, day.logs, day.marinelives)
       //this is where the order was wrong - now corrected
-      console.log(newDay)
+      //debugger
       newDay.showDay()
 
 
@@ -163,6 +163,7 @@ function postFetch(title,date){
 
 
       //added the day data
+      //debugger
       workarea.innerHTML += this.title;
       workarea.innerHTML += this.date;
 
@@ -242,41 +243,51 @@ function postFetch(title,date){
             container.append(mlDisplay)
 
       workarea.append(container)
-      const logsList = document.createElement('ul')
+      const logsList = document.createElement('ul')// create single list for each day, holds all the logs
 
       this.logs.forEach(log => {
-            this.displayLogs(log, logsList)
+            this.displayLogs(log, logsList)// pass in the log and the list
             })
 
-      workarea.append(container)
+      workarea.append(logsList); //after all logs have been added to list, append the list to the dom
 
       this.marinelives.forEach(ml => {
             this.displayMLs(ml)
             })
-
+//do similar for ML
 
 
     }
 
-    displayLogs(log) {
-        console.log(log)
-        const lh = document.getElementById(`logDisplay-${log.id}`)
+    displayLogs(log, logsList) {
+
+        const spanTag = document.createElement('span')
+        const text = document.createTextNode(`Location: ${log.location} - Depth: ${log.depth} - Current: ${log.current}${String.fromCharCode(160)}${String.fromCharCode(160)}`)
+        spanTag.appendChilde(text);
+
+        const logListItem = document.createElement('li')
+        logListItem.id = `log-container-${log.id}`
+        logListItem.append(spanTag);
+
+
+        // console.log(log)
+        // const lh = document.getElementById(`logDisplay-${log.id}`)
         //issue with this line  - looking for it to be already there, nothing here so nothing to append to and it breaks
 
         //const ul = document.createElement('ul')
-        lh.append(ul)
-        const logListItem = document.createElement('li')
-        logListItem.id = `log-container-${log.id}`
-
-        logListItem.id = `log-container-${log.id}`
-        logListItem.text +=  log.location;
-        logListItem.text +=  "-";
-        logListItem.text +=  log.depth;
-        logListItem.text +=  "-";
-        logListItem.text +=  log.current;
-        logListItem.text +=  "-";
-        logListItem.text +=  log.visibility;
-        loglogList.append(logListItem)
+        // lh.append(ul)
+        // const logListItem = document.createElement('li')
+        // logListItem.id = `log-container-${log.id}`
+        //
+        // logListItem.id = `log-container-${log.id}`
+        // logListItem.text +=  log.location;
+        // logListItem.text +=  "-";
+        // logListItem.text +=  log.depth;
+        // logListItem.text +=  "-";
+        // logListItem.text +=  log.current;
+        // logListItem.text +=  "-";
+        // logListItem.text +=  log.visibility;
+        // loglogList.append(logListItem)
 
         // ul.append(logList)
         // logsList.innerHTML += log.location
