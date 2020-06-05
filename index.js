@@ -234,7 +234,7 @@ function postFetch(title,date){
 
       const logDisplay = document.createElement('lh')
             logDisplay.id = `logDisplay-${this.id}`
-            logDisplay.innerHTML = "Dive Log Details"
+            //logDisplay.innerHTML = "Dive Log Details"
             container.append(logDisplay)
             logDisplay.append(br)
       const mlDisplay = document.createElement('lh')
@@ -251,51 +251,27 @@ function postFetch(title,date){
 
       workarea.append(logsList); //after all logs have been added to list, append the list to the dom
 
+      //new changes
+      const mlList = document.createElement('ul')
+
+      //as is
       this.marinelives.forEach(ml => {
-            this.displayMLs(ml)
+            this.displayMLs(ml, mlList)
             })
-//do similar for ML
-
-
+      //new change
+      workarea.append(mlList);
     }
 
     displayLogs(log, logsList) {
 
         const spanTag = document.createElement('span')
         const text = document.createTextNode(`Location: ${log.location} - Depth: ${log.depth} - Current: ${log.current}${String.fromCharCode(160)}${String.fromCharCode(160)}`)
-        spanTag.appendChilde(text);
+        spanTag.appendChild(text);
 
         const logListItem = document.createElement('li')
         logListItem.id = `log-container-${log.id}`
         logListItem.append(spanTag);
 
-
-        // console.log(log)
-        // const lh = document.getElementById(`logDisplay-${log.id}`)
-        //issue with this line  - looking for it to be already there, nothing here so nothing to append to and it breaks
-
-        //const ul = document.createElement('ul')
-        // lh.append(ul)
-        // const logListItem = document.createElement('li')
-        // logListItem.id = `log-container-${log.id}`
-        //
-        // logListItem.id = `log-container-${log.id}`
-        // logListItem.text +=  log.location;
-        // logListItem.text +=  "-";
-        // logListItem.text +=  log.depth;
-        // logListItem.text +=  "-";
-        // logListItem.text +=  log.current;
-        // logListItem.text +=  "-";
-        // logListItem.text +=  log.visibility;
-        // loglogList.append(logListItem)
-
-        // ul.append(logList)
-        // logsList.innerHTML += log.location
-        // logsList.innerHTML += log.depth
-        // logsList.innerHTML += log.current
-        // logsList.innerHTML += log.visibility
-
-        //changes
         const deleteButton = document.createElement('button')
         deleteButton.innerHTML = "Delete this log"
         deleteButton.id = `log-delete-${log.id}`
@@ -307,23 +283,45 @@ function postFetch(title,date){
     }
 
 
-    displayMLs(ml) {
-        const lh = document.getElementById(`mlDisplay-${this.id}`)
-        const ul = document.createElement('ul')
-        lh.append(ul)
-        const mlList = document.createElement('li')
-        mlList.id = `ml-container-${ml.id}`
-        ul.append(mlList)
-        mlList.innerHTML = ml.content
-        const deleteButton = document.createElement('button')
-        deleteButton.innerHTML = "Delete this Observation"
-        deleteButton.id = `ml-delete-${ml.id}`
+    //This worked but only for the last one
+    // displayMLs(ml) {
+    //     const lh = document.getElementById(`mlDisplay-${this.id}`)
+    //     const ul = document.createElement('ul')
+    //     lh.append(ul)
+    //     const mlList = document.createElement('li')
+    //     mlList.id = `ml-container-${ml.id}`
+    //     ul.append(mlList)
+    //     mlList.innerHTML = ml.content
+    //     const deleteButton = document.createElement('button')
+    //     deleteButton.innerHTML = "Delete this Observation"
+    //     deleteButton.id = `ml-delete-${ml.id}`
+    //
+    //     mlList.append(deleteButton)
+    //     deleteButton.addEventListener("click", event => {
+    //         Marinelife.deleteml(ml, event)
+    //     })
+    // }
 
-        mlList.append(deleteButton)
-        deleteButton.addEventListener("click", event => {
-            Marinelife.deleteml(ml, event)
-        })
+    displayMLs(ml, mlList){
+      const spanTag = document.createElement('span');
+      const text = document.createTextNode(`Marine Life Observed: ${ml.content}`)
+      spanTag.appendChild(text);
+
+      const mlListItem = document.createElement('li')
+      mlListItem.id = 'ml-container-${log.id}'
+      mlListItem.append(spanTag);
+
+      const deleteButton = document.createElement('button')
+      deleteButton.innerHTML = "Delete this Observation"
+      deleteButton.id = `ml-delete-${ml.id}`
+
+      mlList.append(deleteButton)
+      deleteButton.addEventListener("click", event => {
+         Marinelife.deleteml(ml, event)
+      })
+
     }
+
   }
 
 
@@ -343,7 +341,7 @@ function postFetch(title,date){
         const current = event.target.previousSibling.value
         const visibility = event.target.previousSibling.value
 
-        fetch(LOGS_URL, {
+        fetch(LOGS_URL,{
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -363,7 +361,7 @@ function postFetch(title,date){
           const ul = document.createElement('ul')
           lh.append(ul)
           const logList = document.createElement('li')
-          logList.id = `log-container-${log.id}`
+          logList.id = `log-container-${newLog.id}`
           ul.append(logList)
           //can I do that?
           logList.innerHTML = newLog.location
@@ -372,7 +370,8 @@ function postFetch(title,date){
           logList.innerHTML += newLog.visibility
 
           const deleteButton = document.createElement('button')
-          deleteButton.id = `log-delete-${log.id}`
+          deleteButton.id = `log-delete-${newLog.id}`
+          deleteButton.innerHTML = "Delete this Log"
           logList.append(deleteButton)
           //can be refactored to so its not duplicated
           deleteButton.addEventListener("click", event => {
