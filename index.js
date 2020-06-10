@@ -69,9 +69,6 @@ function postFetch(title,date){
       let day = new Day(newDay.id, newDay.title, newDay.date, [], [])
                  day.showDay();
 
-
-
-
       //now creating the log version of the file
       const logTitle= document.createElement("H4")
       logTitle.innerText = "Log details about this dive:"
@@ -134,15 +131,17 @@ function postFetch(title,date){
         MarineLife.createML(newDay, event)
       })
 
-      const logDisplay = document.createElement('lh')
-            logDisplay.id = `logDisplay-${newDay.id}`
-            logDisplay.innerHTML = "Dive Log Details"
-            container.append(logDisplay)
-            logDisplay.append(br)
+      // const logDisplay = document.createElement('lh')
+      //       logDisplay.id = `logDisplay-${newDay.id}`
+      //
+      //       logDisplay.innerHTML = "Dive Log Details"
+      //       container.append(logDisplay)
+      //       logDisplay.append(br)
       const mlDisplay = document.createElement('lh')
             mlDisplay.id = `mlDisplay-${newDay.id}`
-            mlDisplay.innerHTML = "Dive Details Below:"
+
             container.append(mlDisplay)
+            mlDisplay.innerHTML = "Dive Details Below:"
 
     })
 
@@ -224,6 +223,8 @@ function postFetch(title,date){
       const submitML = document.createElement('button')
       submitML.innerHTML = "Enter MarineLife Information"
 
+      container.append(br)
+      console.log("Put a title here")
       container.append(logTitle)
       container.append(locInput)
       container.append(depthInput)
@@ -253,8 +254,9 @@ function postFetch(title,date){
             logDisplay.append(br)
       const mlDisplay = document.createElement('lh')
             mlDisplay.id = `mlDisplay-${this.id}`
-            mlDisplay.innerHTML = "Dive Details Below:"
+
             container.append(mlDisplay)
+            // mlDisplay.innerHTML = "Dive Details Below:"
 
       workarea.append(container)
       const logsList = document.createElement('ul')// create single list for each day, holds all the logs
@@ -271,10 +273,11 @@ function postFetch(title,date){
       //as is
       this.marinelives.forEach(ml => {
             this.displayMLs(ml, mlList)
+
             })
       //new change
-      workarea.append(ml);
-      workarea.append(mlList);
+      // workarea.append(ml);
+      // workarea.append(mlList);
     }
 
     displayLogs(log, logsList) {
@@ -291,7 +294,7 @@ function postFetch(title,date){
         deleteButton.innerHTML = "Delete this log"
         deleteButton.id = `log-delete-${log.id}`
         //deleteButton.classList.add('delete')
-        logList.append(deleteButton)
+        logsList.append(deleteButton)
         deleteButton.addEventListener("click", event => {
             Log.deleteLog(log, event)
         })
