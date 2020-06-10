@@ -78,25 +78,25 @@ function postFetch(title,date){
 
       const locInput = document.createElement('input')
            locInput.type = "text"
-           locInput.id = "diveLoc"
+           locInput.id = "diveLoc-" + this.id
            locInput.className = "form-group"
            locInput.placeholder = "Log dive location - Fiji? Bahamas? Hawaii? jk we are jealous anyway"
 
       const depthInput = document.createElement('input')
             depthInput.type = "text"
-            depthInput.id = "diveLoc"
+            depthInput.id = "diveDepth-" + this.id
             depthInput.className = "form-group"
             depthInput.placeholder = "Log dive depth - How deep did you go (in meters)"
 
       const currentInput = document.createElement('input')
             currentInput.type = "text"
-            currentInput.id = "current"
+            currentInput.id = "current-" + this.id
             currentInput.className = "form-group"
             currentInput.placeholder = "Log dive current - Strong/Medium/Light"
 
       const visInput = document.createElement('input')
             visInput.type = "text"
-            visInput.id = "visibility"
+            visInput.id = "visibility-" + this.id
             visInput.className = "form-group"
             visInput.placeholder = "Log dive visibility - Murky/Medium/Clear"
 
@@ -187,25 +187,25 @@ function postFetch(title,date){
 
       const locInput = document.createElement('input')
            locInput.type = "text"
-           locInput.id = "diveLoc"
+           locInput.id = "diveLoc-" + this.id
            locInput.className = "form-group"
            locInput.placeholder = "Log dive location - Fiji? Bahamas? Hawaii? jk we are jealous anyway"
 
       const depthInput = document.createElement('input')
             depthInput.type = "text"
-            depthInput.id = "diveLoc"
+            depthInput.id = "diveDepth-" + this.id
             depthInput.className = "form-group"
             depthInput.placeholder = "Log dive depth - How deep did you go (in meters)"
 
       const currentInput = document.createElement('input')
             currentInput.type = "text"
-            currentInput.id = "current"
+            currentInput.id = "current-" + this.id
             currentInput.className = "form-group"
             currentInput.placeholder = "Log dive current - Strong/Medium/Light"
 
       const visInput = document.createElement('input')
             visInput.type = "text"
-            visInput.id = "visibility"
+            visInput.id = "visibility-" + this.id
             visInput.className = "form-group"
             visInput.placeholder = "Log dive visibility - Murky/Medium/Clear"
 
@@ -351,16 +351,16 @@ function postFetch(title,date){
 
       static createLog(day, event){
 
-        const location = event.target.previousSibling.value
-        const depth = event.target.previousSibling.value
-        const current = event.target.previousSibling.value
-        const visibility = event.target.previousSibling.value
+        // const location = event.target.previousSibling.value
+        // const depth = event.target.previousSibling.value
+        // const current = event.target.previousSibling.value
+        // const visibility = event.target.previousSibling.value
 
 
-        // const location = document.getElementById(`diveLoc-${day.id}`).value
-        //  const depth = document.getElementById(`diveDepth-${day.id}`).value
-        //  const current = document.getElementById(`current-${day.id}`).value
-        //  const visibility = document.getElementById(`visibility-${day.id}`).value
+        const location = document.getElementById(`diveLoc-${day.id}`).value
+        const depth = document.getElementById(`diveDepth-${day.id}`).value
+        const current = document.getElementById(`current-${day.id}`).value
+        const visibility = document.getElementById(`visibility-${day.id}`).value
 
 
         fetch(LOGS_URL,{
