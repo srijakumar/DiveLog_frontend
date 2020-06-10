@@ -3,6 +3,8 @@ const DAYS_URL = `${URL}/days`
 const LOGS_URL = `${URL}/logs`
 const ML_URL = `${URL}/marinelives`
 
+
+
 document.addEventListener("DOMContentLoaded", () => {
     //fetch and load dive days
     fetchDays()
@@ -11,23 +13,24 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
 
-//this is a get request
-function fetchDays() {
-  fetch(DAYS_URL)
-  .then(response => response.json())
-  .then(days => {
-    days.forEach(day => {
-        // this is manipulating the DOM
-      //  render(day)
-      let newDay = new Day(day.id, day.title, day.date, day.logs, day.marinelives)
-      //this is where the order was wrong - now corrected
-      //debugger
-      newDay.showDay()
+  //this is a get request
+  function fetchDays() {
+   fetch(DAYS_URL)
+    .then(response => response.json())
+    .then(days => {
+      days.forEach(day => {
+          // this is manipulating the DOM
+        //  render(day)
+        let newDay = new Day(day.id, day.title, day.date, day.logs, day.marinelives)
+        //this is where the order was wrong - now corrected
+        console.log(newDay.marinelives)
+        newDay.showDay()
+        //debugger
 
 
+        })
       })
-    })
-}
+  }
 
 
 function createFormHandler(e){
@@ -61,7 +64,13 @@ function postFetch(title,date){
       container.id = "main-container"
 
       //added the day data
-      workarea.innerHTML += bodyData;
+      //workarea.innerHTML += bodyData;
+
+      let day = new Day(newDay.id, newDay.title, newDay.date, [], [])
+                 day.showDay();
+
+
+
 
       //now creating the log version of the file
       const logTitle= document.createElement("H4")
@@ -132,7 +141,7 @@ function postFetch(title,date){
             logDisplay.append(br)
       const mlDisplay = document.createElement('lh')
             mlDisplay.id = `mlDisplay-${newDay.id}`
-            mlDisplay.innerHTML = "Dive Observation Details"
+            mlDisplay.innerHTML = "Dive Details Below:"
             container.append(mlDisplay)
 
     })
@@ -164,8 +173,13 @@ function postFetch(title,date){
 
       //added the day data
       //debugger
-      workarea.innerHTML += this.title;
-      workarea.innerHTML += this.date;
+      // workarea.innerHTML += this.title;
+      // workarea.innerHTML += this.date;
+
+      workarea.append(this.title);
+
+      workarea.append(this.date);
+
 
       //now creating the log version of the file
       const logTitle= document.createElement("H4")
@@ -239,7 +253,7 @@ function postFetch(title,date){
             logDisplay.append(br)
       const mlDisplay = document.createElement('lh')
             mlDisplay.id = `mlDisplay-${this.id}`
-            mlDisplay.innerHTML = "Dive Observation Details"
+            mlDisplay.innerHTML = "Dive Details Below:"
             container.append(mlDisplay)
 
       workarea.append(container)
@@ -259,6 +273,7 @@ function postFetch(title,date){
             this.displayMLs(ml, mlList)
             })
       //new change
+      workarea.append(ml);
       workarea.append(mlList);
     }
 
@@ -335,11 +350,18 @@ function postFetch(title,date){
       }
 
       static createLog(day, event){
+
         const location = event.target.previousSibling.value
-        //is this correct way to add on to the previously displayed values
         const depth = event.target.previousSibling.value
         const current = event.target.previousSibling.value
         const visibility = event.target.previousSibling.value
+
+
+        // const location = document.getElementById(`diveLoc-${day.id}`).value
+        //  const depth = document.getElementById(`diveDepth-${day.id}`).value
+        //  const current = document.getElementById(`current-${day.id}`).value
+        //  const visibility = document.getElementById(`visibility-${day.id}`).value
+
 
         fetch(LOGS_URL,{
           method: "POST",
@@ -364,10 +386,15 @@ function postFetch(title,date){
           logList.id = `log-container-${newLog.id}`
           ul.append(logList)
           //can I do that?
-          logList.innerHTML = newLog.location
-          logList.innerHTML += newLog.depth
-          logList.innerHTML += newLog.current
-          logList.innerHTML += newLog.visibility
+
+          logList.append(newLog.location)
+          logList.append(newLog.depth)
+          logList.append(newLog.current)
+          logList.append(newLog.visibility)
+          // logList.innerHTML = newLog.location
+          // logList.innerHTML += newLog.depth
+          // logList.innerHTML += newLog.current
+          // logList.innerHTML += newLog.visibility
 
           const deleteButton = document.createElement('button')
           deleteButton.id = `log-delete-${newLog.id}`
