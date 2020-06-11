@@ -58,6 +58,7 @@ function postFetch(title,date){
       const workarea = document.querySelector('#diveList')
       const container = document.createElement('div')
       const br = document.createElement("BR")
+      var hr = document.createElement('hr')
 
       workarea.append(container)
       container.classList.add("day-container")
@@ -77,25 +78,25 @@ function postFetch(title,date){
            locInput.type = "text"
            locInput.id = "diveLoc-" + this.id
            locInput.className = "form-group"
-           locInput.placeholder = "Log dive location - Fiji? Bahamas? Hawaii? jk we are jealous anyway"
+           locInput.placeholder = "Location"
 
       const depthInput = document.createElement('input')
             depthInput.type = "text"
             depthInput.id = "diveDepth-" + this.id
             depthInput.className = "form-group"
-            depthInput.placeholder = "Log dive depth - How deep did you go (in meters)"
+            depthInput.placeholder = "Depth (in meters)"
 
       const currentInput = document.createElement('input')
             currentInput.type = "text"
             currentInput.id = "current-" + this.id
             currentInput.className = "form-group"
-            currentInput.placeholder = "Log dive current - Strong/Medium/Light"
+            currentInput.placeholder = "Current"
 
       const visInput = document.createElement('input')
             visInput.type = "text"
             visInput.id = "visibility-" + this.id
             visInput.className = "form-group"
-            visInput.placeholder = "Log dive visibility - Murky/Medium/Clear"
+            visInput.placeholder = "Visibility"
 
       const submitLog = document.createElement('button')
       submitLog.innerHTML = "Enter Log Information"
@@ -107,7 +108,7 @@ function postFetch(title,date){
             mlInput.type = "text"
             mlInput.id = "marinelife"
             mlInput.className = "form-group"
-            mlInput.placeholder = "Corals? Sharks? Turtles? What did you see"
+            mlInput.placeholder = "Corals? Sharks?"
 
       const submitML = document.createElement('button')
       submitML.innerHTML = "Enter MarineLife Information"
@@ -163,6 +164,7 @@ function postFetch(title,date){
       const workarea = document.querySelector('#diveList')
       const container = document.createElement('div')
       const br = document.createElement("BR")
+      var hr = document.createElement('hr');
 
 
       //container.classList.add("day-container")
@@ -175,8 +177,9 @@ function postFetch(title,date){
       // workarea.innerHTML += this.title;
       // workarea.innerHTML += this.date;
 
+      workarea.append(hr)
       workarea.append(this.title);
-
+      container.append(br)
       workarea.append(this.date);
 
 
@@ -188,25 +191,25 @@ function postFetch(title,date){
            locInput.type = "text"
            locInput.id = "diveLoc-" + this.id
            locInput.className = "form-group"
-           locInput.placeholder = "Log dive location - Fiji? Bahamas? Hawaii? jk we are jealous anyway"
+           locInput.placeholder = "Location"
 
       const depthInput = document.createElement('input')
             depthInput.type = "text"
             depthInput.id = "diveDepth-" + this.id
             depthInput.className = "form-group"
-            depthInput.placeholder = "Log dive depth - How deep did you go (in meters)"
+            depthInput.placeholder = "Depth (in meters)"
 
       const currentInput = document.createElement('input')
             currentInput.type = "text"
             currentInput.id = "current-" + this.id
             currentInput.className = "form-group"
-            currentInput.placeholder = "Log dive current - Strong/Medium/Light"
+            currentInput.placeholder = "Currents"
 
       const visInput = document.createElement('input')
             visInput.type = "text"
             visInput.id = "visibility-" + this.id
             visInput.className = "form-group"
-            visInput.placeholder = "Log dive visibility - Murky/Medium/Clear"
+            visInput.placeholder = "Visibility"
 
       const submitLog = document.createElement('button')
       submitLog.innerHTML = "Enter Log Information"
@@ -218,13 +221,12 @@ function postFetch(title,date){
             mlInput.type = "text"
             mlInput.id = "marinelife"
             mlInput.className = "form-group"
-            mlInput.placeholder = "Corals? Sharks? Turtles? What did you see"
+            mlInput.placeholder = "Corals? Sharks?"
 
       const submitML = document.createElement('button')
       submitML.innerHTML = "Enter MarineLife Information"
 
       container.append(br)
-      console.log("Put a title here")
       container.append(logTitle)
       container.append(locInput)
       container.append(depthInput)
@@ -281,7 +283,8 @@ function postFetch(title,date){
     }
 
     displayLogs(log, logsList) {
-
+      //debugger
+        console.log("I am here")
         const spanTag = document.createElement('span')
         const text = document.createTextNode(`Location: ${log.location} - Depth: ${log.depth} - Current: ${log.current}${String.fromCharCode(160)}${String.fromCharCode(160)}`)
         spanTag.appendChild(text);
@@ -354,17 +357,10 @@ function postFetch(title,date){
 
       static createLog(day, event){
 
-        // const location = event.target.previousSibling.value
-        // const depth = event.target.previousSibling.value
-        // const current = event.target.previousSibling.value
-        // const visibility = event.target.previousSibling.value
-
-
         const location = document.getElementById(`diveLoc-${day.id}`).value
         const depth = document.getElementById(`diveDepth-${day.id}`).value
         const current = document.getElementById(`current-${day.id}`).value
         const visibility = document.getElementById(`visibility-${day.id}`).value
-
 
         fetch(LOGS_URL,{
           method: "POST",
@@ -391,13 +387,11 @@ function postFetch(title,date){
           //can I do that?
 
           logList.append(newLog.location)
+          console.log("I am here")
           logList.append(newLog.depth)
           logList.append(newLog.current)
           logList.append(newLog.visibility)
-          // logList.innerHTML = newLog.location
-          // logList.innerHTML += newLog.depth
-          // logList.innerHTML += newLog.current
-          // logList.innerHTML += newLog.visibility
+
 
           const deleteButton = document.createElement('button')
           deleteButton.id = `log-delete-${newLog.id}`
