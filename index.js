@@ -57,96 +57,8 @@ function postFetch(title,date){
       container.classList.add("day-container")
       container.id = "main-container"
 
-      //added the day data
-      //workarea.innerHTML += bodyData;
-
       let day = new Day(newDay.id, newDay.title, newDay.date, [], [])
                  day.showDay();
-
-      //now creating the log version of the file
-      //TESTING IF THE DUPLICATE ISSUE IS HERE
-      //const logTitle= document.createElement("H4")
-      //logTitle.innerText = "Log details about this dive:"
-
-      // const locInput = document.createElement('input')
-      //      locInput.type = "text"
-      //      locInput.id = "diveLoc-" + this.id
-      //      locInput.className = "form-group"
-      //      locInput.placeholder = "Location"
-
-      // const depthInput = document.createElement('input')
-      //       depthInput.type = "text"
-      //       depthInput.id = "diveDepth-" + this.id
-      //       depthInput.className = "form-group"
-      //       depthInput.placeholder = "Depth (in meters)"
-      //
-      // const currentInput = document.createElement('input')
-      //       currentInput.type = "text"
-      //       currentInput.id = "current-" + this.id
-      //       currentInput.className = "form-group"
-      //       currentInput.placeholder = "Current"
-      //
-      // const visInput = document.createElement('input')
-      //       visInput.type = "text"
-      //       visInput.id = "visibility-" + this.id
-      //       visInput.className = "form-group"
-      //       visInput.placeholder = "Visibility"
-      //
-      // const submitLog = document.createElement('button')
-      // submitLog.innerHTML = "Enter Log Information"
-      //
-      // const mlTitle= document.createElement("H4")
-      // mlTitle.innerText = "Did you see any marine life:"
-      //
-      // const mlInput = document.createElement('input')
-      //       mlInput.type = "text"
-      //       mlInput.id = "marinelife"
-      //       mlInput.className = "form-group"
-      //       mlInput.placeholder = "Corals? Sharks?"
-      //
-      // const submitML = document.createElement('button')
-      // submitML.innerHTML = "Enter MarineLife Information"
-      //NO ISSUES SO FAR AND THE DUPLICATE IS GONE
-
-      // container.append(logTitle)
-      // container.append(locInput)
-      // container.append(depthInput)
-      // container.append(currentInput)
-      // container.append(visInput)
-      //
-      // container.append(submitLog)
-      // submitLog.addEventListener("click", event =>{
-      //   Log.createLog(newDay, event)
-      // })
-
-      // container.append(mlTitle)
-      // container.append(mlInput)
-      //
-      // container.append(submitML)
-      // submitML.addEventListener("click", event =>{
-      //   MarineLife.createML(newDay, event)
-      // })
-
-      // const logDisplay = document.createElement('lh')
-      //       logDisplay.id = `logDisplay-${newDay.id}`
-      //
-      //       logDisplay.innerHTML = "Dive Log Details"
-      //       container.append(logDisplay)
-      //       logDisplay.append(br)
-
-
-//WILL DELETING THIS WORK??
-//when form filled both log and ml file show up
-//ml&log form filled and the values appear below
-//both can be deleted as well
-//BUT ONCE REFRESHED THE ML CANNOT BE DELETED
-
-      // const mlDisplay = document.createElement('lh')
-      //       mlDisplay.id = `mlDisplay-${newDay.id}`
-      //
-      //       container.append(mlDisplay)
-      //       mlDisplay.innerHTML = "Dive Details Below:"
-
     })
 
   }
@@ -154,7 +66,6 @@ function postFetch(title,date){
 
   class Day {
     constructor(id, title, date, logs, marinelives){
-      //this is wrong order
       this.id = id
       this.title = title
       this.date = date
@@ -163,27 +74,18 @@ function postFetch(title,date){
     }
 
     showDay(){
-
       const workarea = document.querySelector('#diveList')
       const container = document.createElement('div')
       const br = document.createElement("BR")
       var hr = document.createElement('hr');
-
-
-      //container.classList.add("day-container")
       container.id = "main-container"
-      //this contain is created and appended to DOM and then select it from the dom again and compare it to the created container - is it the same object?
 
-
-      //added the day data
-      //debugger
-      // workarea.innerHTML += this.title;
-      // workarea.innerHTML += this.date;
-
+    //This area displays the title and break line
       workarea.append(hr)
-      workarea.append(this.title);
-      workarea.append(this.date);
-
+      const spanTagTitle = document.createElement('span')
+      const text = document.createTextNode(`Title: ${this.title} | Date: ${this.date}`)
+      spanTagTitle.appendChild(text);
+      workarea.append(spanTagTitle);
 
       //now creating the log version of the file
       const logTitle= document.createElement("H4")
@@ -237,6 +139,7 @@ function postFetch(title,date){
 
       container.append(submitLog)
       submitLog.addEventListener("click", event =>{
+        //debugger
         Log.createLog(this, event)
       })
 
@@ -247,9 +150,6 @@ function postFetch(title,date){
       submitML.addEventListener("click", event =>{
         MarineLife.createML(this, event)
       })
-
-      //moved
-
 
       const logDisplay = document.createElement('lh')
             logDisplay.id = `logDisplay-${this.id}`
@@ -299,8 +199,7 @@ function postFetch(title,date){
         const deleteButton = document.createElement('button')
         deleteButton.innerHTML = "Delete this log"
         deleteButton.id = `log-delete-${log.id}`
-        //deleteButton.classList.add('delete')
-        logsList.append(deleteButton)
+        logListItem.append(deleteButton)
         deleteButton.addEventListener("click", event => {
             Log.deleteLog(log, event)
         })
@@ -342,6 +241,7 @@ function postFetch(title,date){
 
       mlList.append(deleteButton)
       deleteButton.addEventListener("click", event => {
+        //issue marinelife not defined
          Marinelife.deleteml(ml, event)
       })
 
@@ -388,13 +288,15 @@ function postFetch(title,date){
           const logList = document.createElement('li')
           logList.id = `log-container-${newLog.id}`
           ul.append(logList)
-          //can I do that?
 
-          logList.append(newLog.location)
-          console.log("I am here")
-          logList.append(newLog.depth)
-          logList.append(newLog.current)
-          logList.append(newLog.visibility)
+
+          //updating display here
+
+          const spanTagLocDisplay = document.createElement('span')
+          const text = document.createTextNode(`Location: ${newLog.location} - Depth: ${newLog.depth}m - Current: ${newLog.current}${String.fromCharCode(160)}${String.fromCharCode(160)}- Visibility: ${newLog.visibility}`)
+          spanTagLocDisplay.appendChild(text);
+          logList.append(spanTagLocDisplay)
+
 
 
           const deleteButton = document.createElement('button')
@@ -407,6 +309,14 @@ function postFetch(title,date){
           })
         })
     }
+
+
+
+
+
+
+
+
 
     static deleteLog(log, event) {
         fetch(`${LOGS_URL}/${log.id}`, {
