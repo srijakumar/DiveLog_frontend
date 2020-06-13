@@ -13,26 +13,19 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
 
-  //this is a get request
+  //this is a get request. This is being activated only when the page dom loads, not when you create
   function fetchDays() {
    fetch(DAYS_URL)
     .then(response => response.json())
     .then(days => {
       days.forEach(day => {
-          // this is manipulating the DOM
-        //  render(day)
         let newDay = new Day(day.id, day.title, day.date, day.logs, day.marinelives)
-        //this is where the order was wrong - now corrected
-        console.log(newDay.marinelives)
         newDay.showDay()
-        //debugger
-
-
         })
       })
   }
 
-
+//issue is with createform that is generating a new blank form
 function createFormHandler(e){
   e.preventDefault()
   const titleInput = document.querySelector('#diveDesc').value
@@ -71,66 +64,68 @@ function postFetch(title,date){
                  day.showDay();
 
       //now creating the log version of the file
-      const logTitle= document.createElement("H4")
-      logTitle.innerText = "Log details about this dive:"
+      //TESTING IF THE DUPLICATE ISSUE IS HERE
+      //const logTitle= document.createElement("H4")
+      //logTitle.innerText = "Log details about this dive:"
 
-      const locInput = document.createElement('input')
-           locInput.type = "text"
-           locInput.id = "diveLoc-" + this.id
-           locInput.className = "form-group"
-           locInput.placeholder = "Location"
+      // const locInput = document.createElement('input')
+      //      locInput.type = "text"
+      //      locInput.id = "diveLoc-" + this.id
+      //      locInput.className = "form-group"
+      //      locInput.placeholder = "Location"
 
-      const depthInput = document.createElement('input')
-            depthInput.type = "text"
-            depthInput.id = "diveDepth-" + this.id
-            depthInput.className = "form-group"
-            depthInput.placeholder = "Depth (in meters)"
+      // const depthInput = document.createElement('input')
+      //       depthInput.type = "text"
+      //       depthInput.id = "diveDepth-" + this.id
+      //       depthInput.className = "form-group"
+      //       depthInput.placeholder = "Depth (in meters)"
+      //
+      // const currentInput = document.createElement('input')
+      //       currentInput.type = "text"
+      //       currentInput.id = "current-" + this.id
+      //       currentInput.className = "form-group"
+      //       currentInput.placeholder = "Current"
+      //
+      // const visInput = document.createElement('input')
+      //       visInput.type = "text"
+      //       visInput.id = "visibility-" + this.id
+      //       visInput.className = "form-group"
+      //       visInput.placeholder = "Visibility"
+      //
+      // const submitLog = document.createElement('button')
+      // submitLog.innerHTML = "Enter Log Information"
+      //
+      // const mlTitle= document.createElement("H4")
+      // mlTitle.innerText = "Did you see any marine life:"
+      //
+      // const mlInput = document.createElement('input')
+      //       mlInput.type = "text"
+      //       mlInput.id = "marinelife"
+      //       mlInput.className = "form-group"
+      //       mlInput.placeholder = "Corals? Sharks?"
+      //
+      // const submitML = document.createElement('button')
+      // submitML.innerHTML = "Enter MarineLife Information"
+      //NO ISSUES SO FAR AND THE DUPLICATE IS GONE
 
-      const currentInput = document.createElement('input')
-            currentInput.type = "text"
-            currentInput.id = "current-" + this.id
-            currentInput.className = "form-group"
-            currentInput.placeholder = "Current"
+      // container.append(logTitle)
+      // container.append(locInput)
+      // container.append(depthInput)
+      // container.append(currentInput)
+      // container.append(visInput)
+      //
+      // container.append(submitLog)
+      // submitLog.addEventListener("click", event =>{
+      //   Log.createLog(newDay, event)
+      // })
 
-      const visInput = document.createElement('input')
-            visInput.type = "text"
-            visInput.id = "visibility-" + this.id
-            visInput.className = "form-group"
-            visInput.placeholder = "Visibility"
-
-      const submitLog = document.createElement('button')
-      submitLog.innerHTML = "Enter Log Information"
-
-      const mlTitle= document.createElement("H4")
-      mlTitle.innerText = "Did you see any marine life:"
-
-      const mlInput = document.createElement('input')
-            mlInput.type = "text"
-            mlInput.id = "marinelife"
-            mlInput.className = "form-group"
-            mlInput.placeholder = "Corals? Sharks?"
-
-      const submitML = document.createElement('button')
-      submitML.innerHTML = "Enter MarineLife Information"
-
-      container.append(logTitle)
-      container.append(locInput)
-      container.append(depthInput)
-      container.append(currentInput)
-      container.append(visInput)
-
-      container.append(submitLog)
-      submitLog.addEventListener("click", event =>{
-        Log.createLog(newDay, event)
-      })
-
-      container.append(mlTitle)
-      container.append(mlInput)
-
-      container.append(submitML)
-      submitML.addEventListener("click", event =>{
-        MarineLife.createML(newDay, event)
-      })
+      // container.append(mlTitle)
+      // container.append(mlInput)
+      //
+      // container.append(submitML)
+      // submitML.addEventListener("click", event =>{
+      //   MarineLife.createML(newDay, event)
+      // })
 
       // const logDisplay = document.createElement('lh')
       //       logDisplay.id = `logDisplay-${newDay.id}`
@@ -138,11 +133,19 @@ function postFetch(title,date){
       //       logDisplay.innerHTML = "Dive Log Details"
       //       container.append(logDisplay)
       //       logDisplay.append(br)
-      const mlDisplay = document.createElement('lh')
-            mlDisplay.id = `mlDisplay-${newDay.id}`
 
-            container.append(mlDisplay)
-            mlDisplay.innerHTML = "Dive Details Below:"
+
+//WILL DELETING THIS WORK??
+//when form filled both log and ml file show up
+//ml&log form filled and the values appear below
+//both can be deleted as well
+//BUT ONCE REFRESHED THE ML CANNOT BE DELETED
+
+      // const mlDisplay = document.createElement('lh')
+      //       mlDisplay.id = `mlDisplay-${newDay.id}`
+      //
+      //       container.append(mlDisplay)
+      //       mlDisplay.innerHTML = "Dive Details Below:"
 
     })
 
@@ -179,7 +182,6 @@ function postFetch(title,date){
 
       workarea.append(hr)
       workarea.append(this.title);
-      container.append(br)
       workarea.append(this.date);
 
 
@@ -279,19 +281,20 @@ function postFetch(title,date){
             })
       //new change
       // workarea.append(ml);
-      // workarea.append(mlList);
+      workarea.append(mlList);
     }
 
     displayLogs(log, logsList) {
       //debugger
-        console.log("I am here")
+        console.log(log)
         const spanTag = document.createElement('span')
-        const text = document.createTextNode(`Location: ${log.location} - Depth: ${log.depth} - Current: ${log.current}${String.fromCharCode(160)}${String.fromCharCode(160)}`)
+        const text = document.createTextNode(`Location: ${log.location} - Depth: ${log.depth}m - Current: ${log.current}${String.fromCharCode(160)}${String.fromCharCode(160)}- Visibility: ${log.visibility}`)
         spanTag.appendChild(text);
 
         const logListItem = document.createElement('li')
         logListItem.id = `log-container-${log.id}`
         logListItem.append(spanTag);
+        logsList.append(logListItem);
 
         const deleteButton = document.createElement('button')
         deleteButton.innerHTML = "Delete this log"
@@ -331,6 +334,7 @@ function postFetch(title,date){
       const mlListItem = document.createElement('li')
       mlListItem.id = 'ml-container-${log.id}'
       mlListItem.append(spanTag);
+      mlList.append(mlListItem)
 
       const deleteButton = document.createElement('button')
       deleteButton.innerHTML = "Delete this Observation"
