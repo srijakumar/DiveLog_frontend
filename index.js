@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //issue is with createform that is generating a new blank form
 function createFormHandler(e){
-  e.preventDefault()
+  //e.preventDefault()
   const titleInput = document.querySelector('#diveDesc').value
   const dayInput = document.querySelector('#diveDay').value
   postFetch(titleInput, dayInput)
