@@ -206,43 +206,27 @@ function postFetch(title,date){
     }
 
 
-    //This worked but only for the last one
-    // displayMLs(ml) {
-    //     const lh = document.getElementById(`mlDisplay-${this.id}`)
-    //     const ul = document.createElement('ul')
-    //     lh.append(ul)
-    //     const mlList = document.createElement('li')
-    //     mlList.id = `ml-container-${ml.id}`
-    //     ul.append(mlList)
-    //     mlList.innerHTML = ml.content
-    //     const deleteButton = document.createElement('button')
-    //     deleteButton.innerHTML = "Delete this Observation"
-    //     deleteButton.id = `ml-delete-${ml.id}`
-    //
-    //     mlList.append(deleteButton)
-    //     deleteButton.addEventListener("click", event => {
-    //         Marinelife.deleteml(ml, event)
-    //     })
-    // }
-
     displayMLs(ml, mlList){
       const spanTag = document.createElement('span');
       const text = document.createTextNode(`Marine Life Observed: ${ml.content}`)
       spanTag.appendChild(text);
 
+
+
       const mlListItem = document.createElement('li')
       mlListItem.id = 'ml-container-${log.id}'
       mlListItem.append(spanTag);
+
       mlList.append(mlListItem)
 
       const deleteButton = document.createElement('button')
       deleteButton.innerHTML = "Delete this Observation"
       deleteButton.id = `ml-delete-${ml.id}`
+      mlListItem.append(deleteButton)
 
-      mlList.append(deleteButton)
       deleteButton.addEventListener("click", event => {
         //issue marinelife not defined
-         Marinelife.deleteml(ml, event)
+         MarineLife.deleteML(ml, event)
       })
 
     }
@@ -309,13 +293,6 @@ function postFetch(title,date){
           })
         })
     }
-
-
-
-
-
-
-
 
 
     static deleteLog(log, event) {
