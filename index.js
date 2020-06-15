@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //this is a get request. This is being activated only when the page dom loads, not when you create
   function fetchDays() {
+    //e.preventDefault()
    fetch(DAYS_URL)
     .then(response => response.json())
     .then(days => {
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //issue is with createform that is generating a new blank form
 function createFormHandler(e){
-  //e.preventDefault()
+  e.preventDefault()
   const titleInput = document.querySelector('#diveDesc').value
   const dayInput = document.querySelector('#diveDay').value
   postFetch(titleInput, dayInput)
@@ -186,7 +187,7 @@ function postFetch(title,date){
 
     displayLogs(log, logsList) {
       //debugger
-        console.log(log)
+        //console.log(log)
         const spanTag = document.createElement('span')
         const text = document.createTextNode(`Location: ${log.location} - Depth: ${log.depth}m - Current: ${log.current}${String.fromCharCode(160)}${String.fromCharCode(160)}- Visibility: ${log.visibility}`)
         spanTag.appendChild(text);
