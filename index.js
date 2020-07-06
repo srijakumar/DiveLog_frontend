@@ -19,44 +19,64 @@ document.addEventListener("DOMContentLoaded", () => {
    fetch(DAYS_URL)
     .then(response => response.json())
     .then(days => {
+      days.sort(function(a, b) {
+            var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+            var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+              return -1;
+            }
+            if (nameA > nameB) {
+              return 1;
+            }
+            // names must be equal
+            return 0;
+    }),
+
       days.forEach(day => {
         let newDay = new Day(day.id, day.title, day.date, day.logs, day.marinelives)
         newDay.showDay()
         })
+
       })
   }
 
 
   const sortButton= document.querySelector('#sort-button')
-  sortButton.addEventListener("click", (e) => fetchDaysforSort()
+  sortButton.addEventListener("click", (e) => location.reload()
   )
 
-  function fetchDaysforSort(){
-    fetch(DAYS_URL)
-    .then(response => response.json())
-    .then(days => {
-
-      days.sort(function(a, b) {
-      var nameA = a.title.toUpperCase(); // ignore upper and lowercase
-      var nameB = b.title.toUpperCase(); // ignore upper and lowercase
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-
-      // names must be equal
-      return 0;
-      });
-
-      console.log(days)
-
-
-//create ul for all sorted days
-
-    })
-  }
+//   function fetchDaysforSort(){
+//     fetch(DAYS_URL)
+//     .then(response => response.json())
+//     .then(days => {
+//
+//       days.sort(function(a, b) {
+//       var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+//       var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+//       if (nameA < nameB) {
+//         return -1;
+//       }
+//       if (nameA > nameB) {
+//         return 1;
+//       }
+//       // names must be equal
+//       return 0;
+//       })
+//       //;
+//
+//       console.log(days)
+//     })
+//   .then(days => {
+//
+//       days.forEach(day => {
+//         let newDay = new Day(day.id, day.title, day.date, day.logs, day.marinelives)
+//         newDay.showDay()
+//
+//         })
+//
+//       })
+//
+//   }
 
 
 //issue is with createform that is generating a new blank form
