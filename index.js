@@ -13,25 +13,17 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
 
-  //this is a get request. This is being activated only when the page dom loads, not when you create
-  function fetchDays() {
+
+// default param for sorting the dives, default is false
+function fetchDays( sortThem = false ) {
     //e.preventDefault()
    fetch(DAYS_URL)
     .then(response => response.json())
     .then(days => {
-      days.sort(function(a, b) {
-            var nameA = a.title.toUpperCase(); // ignore upper and lowercase
-            var nameB = b.title.toUpperCase(); // ignore upper and lowercase
-            if (nameA < nameB) {
-              return -1;
-            }
-            if (nameA > nameB) {
-              return 1;
-            }
-            // names must be equal
-            return 0;
-    }),
-
+	   // only sort if its called for
+      days = sortThem ? sortedDays(days) : days;
+	   // clear out the list so you don't need a page refresh
+      clear('#diveList');
       days.forEach(day => {
         let newDay = new Day(day.id, day.title, day.date, day.logs, day.marinelives)
         newDay.showDay()
@@ -40,10 +32,67 @@ document.addEventListener("DOMContentLoaded", () => {
       })
   }
 
+  function clear(container) {
+	//pass in the selector and empty it
+    document.querySelector(container).innerHTML = '';
+  }
+
+  function sortedDays(days){
+	  //just moved this stuff to a function
+    days.sort(function (a, b) {
+      var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+      var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      // names must be equal
+      return 0;
+    })
+
+    return days;
+  }
 
   const sortButton= document.querySelector('#sort-button')
-  sortButton.addEventListener("click", (e) => location.reload()
-  )
+  sortButton.addEventListener("click", (e) => {
+    e.preventDefault();
+	  // pass true to tell the function to sort the dives
+    fetchDays(true)
+  })
+
+//   //this is a get request. This is being activated only when the page dom loads, not when you create
+//   function fetchDays() {
+//     //e.preventDefault()
+//    fetch(DAYS_URL)
+//     .then(response => response.json())
+//     .then(days => {
+//       days.sort(function(a, b) {
+//             var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+//             var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+//             if (nameA < nameB) {
+//               return -1;
+//             }
+//             if (nameA > nameB) {
+//               return 1;
+//             }
+//             // names must be equal
+//             return 0;
+//     }),
+//
+//       days.forEach(day => {
+//         let newDay = new Day(day.id, day.title, day.date, day.logs, day.marinelives)
+//         newDay.showDay()
+//         })
+//
+//       })
+//   }
+//
+//
+//   const sortButton= document.querySelector('#sort-button')
+//   sortButton.addEventListener("click", (e) => location.reload()
+//   )
 
 //   function fetchDaysforSort(){
 //     fetch(DAYS_URL)
